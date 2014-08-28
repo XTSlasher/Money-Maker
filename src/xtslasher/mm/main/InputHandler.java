@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import xtslasher.mm.main.Screen.KeyTyped;
-
 public class InputHandler implements KeyListener, MouseListener, MouseMotionListener {
 
 	private Screen screen;
@@ -30,7 +28,30 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		int clickedX = e.getX();
+		int clickedY = e.getY();
+		boolean boxClear = false;
 		
+		for(int i= 1;i<4;i++){
+			//0 + 100*i + ((130/2)*i) - 0 + 100*i + ((130/2)*i) + 130, 400 - 400+70
+			if(clickedX < 0 + 100*i + ((130/2)*i) + 130 && clickedX > 0 + 100*i + ((130/2)*i) && clickedY > 400 && clickedY < 400 + 70 && boxClear == false) {
+				boxClear = true;
+				if(i==1) {
+					System.out.println("New Game");
+					//Setup new game!
+				} else if(i == 2) {
+					System.out.println("Load Game");
+					//Load Game Only 1 save!
+				} else if(i == 3) {
+					System.out.println("Options");
+					screen.scene = 2;
+				} else {
+					System.out.println("Misplaced Box!");
+				}
+			}
+		}
+		
+		boxClear = false;
 	}
 
 	@Override
@@ -41,7 +62,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
-	}
+	}	
 
 	@Override
 	public void mousePressed(MouseEvent e) {

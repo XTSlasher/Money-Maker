@@ -1,5 +1,6 @@
 package xtslasher.mm.main;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Frame extends JFrame{
@@ -10,6 +11,7 @@ public class Frame extends JFrame{
 	}
 	
 	public Frame() {
+		loadImage();
 		new JFrame();
 		
 		setSize(800, 600);
@@ -20,5 +22,12 @@ public class Frame extends JFrame{
 		setLocationRelativeTo(null);
 		
 		add(new Screen(this));
+	}
+	
+	private void loadImage() {
+		ImageIcon di = new ImageIcon("src/res/dollar.png");
+		ImageIcon ti = new ImageIcon("src/res/titleScreen.png");
+		Screen.dollar = di.getImage();
+		Screen.title = ti.getImage();
 	}
 }
