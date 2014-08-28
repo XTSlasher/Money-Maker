@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JOptionPane;
+
+import xtslasher.mm.resources.Variables;
+
 public class InputHandler implements KeyListener, MouseListener, MouseMotionListener {
 
 	private Screen screen;
@@ -39,9 +43,12 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 				if(i==1) {
 					System.out.println("New Game");
 					//Setup new game!
+					Variables.playerName = JOptionPane.showInputDialog("Please input Player Name:");
+					System.out.println("Player Name: " + Variables.playerName);
 				} else if(i == 2) {
 					System.out.println("Load Game");
 					//Load Game Only 1 save!
+					JOptionPane.showMessageDialog(screen, "This option has yet to be implemented", "Load Game", JOptionPane.INFORMATION_MESSAGE);
 				} else if(i == 3) {
 					System.out.println("Options");
 					screen.scene = 2;

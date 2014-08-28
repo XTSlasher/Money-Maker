@@ -32,7 +32,6 @@ public class Screen extends JPanel implements Runnable{
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		System.out.println(scene);
 		g.clearRect(0, 0, frame.getWidth(), frame.getHeight());
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);

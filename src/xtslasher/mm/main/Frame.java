@@ -3,6 +3,8 @@ package xtslasher.mm.main;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import xtslasher.mm.resources.Variables;
+
 public class Frame extends JFrame{
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +17,7 @@ public class Frame extends JFrame{
 		new JFrame();
 		
 		setSize(800, 600);
-		setTitle("Money Maker! Version 0.0.1");
+		setTitle(Variables.title + " - " + Variables.version);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
