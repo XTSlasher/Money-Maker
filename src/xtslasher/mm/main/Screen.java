@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.jnbt.FloatTag;
 
+import xtslasher.mm.resources.GlobalFunctions;
 import xtslasher.mm.resources.Variables;
 
 public class Screen extends JPanel implements Runnable{
@@ -20,6 +22,9 @@ public class Screen extends JPanel implements Runnable{
 	Frame frame;
 	public static Image dollar;
 	public static Image title;
+	
+	public int mouseX;	
+	public int mouseY;
 	
 	private int fps = 0;
 	public int scene = 0;
@@ -68,6 +73,22 @@ public class Screen extends JPanel implements Runnable{
 			g.setColor(Color.WHITE);
 			g.setFont(g.getFont().deriveFont(20F));
 			g.drawString("Options", frame.getWidth()/2 - 70, 50);
+			
+			//Draw Settings
+			g.setColor(Color.RED);
+			g.setFont(g.getFont().deriveFont(20F));
+			g.drawRect(frame.getWidth()/2 - 125, 90, 200, 50);
+			g.drawString("CONTROLS: Press C", 10, frame.getHeight() - 40);
+			
+			String enabled;
+			if(Variables.updateCheck.getValue() == 1) {
+				enabled = "ON";
+			} else {
+				enabled = "OFF";
+			}
+			g.drawString("Update Checker: " + enabled, frame.getWidth()/2 - 120, 125);
+			
+			//g.drawString("Mouse X: " + mouseX + " Mouse Y: " + mouseY, mouseX + 5, mouseY);
 		}
 		
 		g.setFont(g.getFont().deriveFont(12F));
@@ -104,10 +125,12 @@ public class Screen extends JPanel implements Runnable{
 	}
 	
 	public class KeyTyped {
-		public void keyEsc() {
+		public void keyEsc() throws Exception {
 			if(scene == 2){
+				GlobalFunctions.SavePlayer();
 				scene = 0;
 			} else {
+				GlobalFunctions.SavePlayer();
 				System.exit(0);
 			}
 		}
@@ -116,6 +139,12 @@ public class Screen extends JPanel implements Runnable{
 			if(scene == 1) {
 				float currentMoney = Variables.playerMoney.getValue();
 				Variables.playerMoney = new FloatTag("PlayerMoney", currentMoney + 100000.0F);
+			}
+		}
+
+		public void openControls(Screen screen) {
+			if(scene == 2) {
+				JOptionPane.showMessageDialog(screen, "Controls: " + "\n" + "ESC: Goes back or Closes Game." + "\n" + "C: Opens Controls" + "\n");
 			}
 		}
 	}

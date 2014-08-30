@@ -32,6 +32,7 @@ public class GlobalFunctions {
 		Variables.playerName = new StringTag("PlayerName", customName);
 		Variables.playerMoney = new FloatTag("PlayerMoney", 0);
 		Variables.playerWorkers = new IntTag("PlayerWorkers", 0);
+		Variables.updateCheck = new IntTag("UpdateChecker", 1);
 		
 		try {
 			SavePlayer();
@@ -48,6 +49,7 @@ public class GlobalFunctions {
 		out.writeTag(Variables.playerName);
 		out.writeTag(Variables.playerMoney);
 		out.writeTag(Variables.playerWorkers);
+		out.writeTag(Variables.updateCheck);
 		out.close();
 	}
 	
@@ -80,6 +82,7 @@ public class GlobalFunctions {
 			Variables.playerName = (StringTag) getTag(tags, "PlayerName");
 			Variables.playerMoney = (FloatTag) getTag(tags, "PlayerMoney");
 			Variables.playerWorkers = (IntTag) getTag(tags, "PlayerWorkers");
+			Variables.updateCheck = (IntTag) getTag(tags, "UpdateChecker");
 		} catch(Exception e) {
 			e.printStackTrace();
 		} 

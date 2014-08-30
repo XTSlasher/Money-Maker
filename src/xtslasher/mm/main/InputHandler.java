@@ -8,7 +8,10 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JOptionPane;
 
+import org.jnbt.IntTag;
+
 import xtslasher.mm.resources.GlobalFunctions;
+import xtslasher.mm.resources.Variables;
 
 public class InputHandler implements KeyListener, MouseListener, MouseMotionListener {
 
@@ -27,7 +30,8 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		
+		screen.mouseX = e.getX();
+		screen.mouseY = e.getY();
 	}
 
 	@Override
@@ -55,10 +59,26 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 							e1.printStackTrace();
 						}
 					} else if(i == 3) {
-						screen.scene = 2;
+						try {
+							GlobalFunctions.LoadPlayer();
+							screen.scene = 2;
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					} else {
 						System.out.println("Misplaced Box!");
 					}
+				}
+			}
+			boxClear = false;
+		} else if(screen.scene == 2) {
+			//frame.getWidth()/2 - 125, 90, 175, 50);
+			if(clickedX < screen.frame.getWidth()/2 - 125 + 200 && clickedX > screen.frame.getWidth()/2 - 125 && clickedY < 90 + 25 + 50 && clickedY > 90 + 25 && boxClear == false) {
+				boxClear = true;
+				if(Variables.updateCheck.getValue() == 1) {
+					Variables.updateCheck = new IntTag("UpdateChecker", 0);
+				} else {
+					Variables.updateCheck = new IntTag("UpdateChecker", 1);
 				}
 			}
 			boxClear = false;
@@ -86,11 +106,19 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {	
+	public void keyPressed(KeyEvent e) {
+		System.out.println(e.getKeyChar() + ": " + e.getKeyCode());
+		
 		if(e.getKeyChar() == 27) {
-			keyTyped.keyEsc();
-		} else if(e.getKeyCode() == 65) {
+			try {
+				keyTyped.keyEsc();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} else if(e.getKeyCode() == 65) { //A
 			keyTyped.addMoney();
+		} else if(e.getKeyCode() == 67) { //C
+			keyTyped.openControls(screen);
 		}
 	}
 

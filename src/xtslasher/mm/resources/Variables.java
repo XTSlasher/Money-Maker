@@ -16,8 +16,9 @@ public class Variables {
 	public static StringTag playerName;
 	public static FloatTag playerMoney;
 	public static IntTag playerWorkers;
+	public static IntTag updateCheck;
 	
-	public static final String[] saveNames = {"PlayerName", "PlayerMoney", "PlayerWorkers"};
+	public static final String[] saveNames = {"PlayerName", "PlayerMoney", "PlayerWorkers", "UpdateChecker"};
 	
 	public static int fileLength;
 }

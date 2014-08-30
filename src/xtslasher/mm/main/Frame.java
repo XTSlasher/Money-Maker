@@ -6,19 +6,41 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
+import xtslasher.mm.resources.GlobalFunctions;
 import xtslasher.mm.resources.Variables;
 
 public class Frame extends JFrame{
 	private static final long serialVersionUID = 1L;
 
+	private Integer majorI;
+	private boolean majorO = false;
+	private boolean majorN = false;
+	private Integer minorI;
+	private boolean minorO = false;
+	private boolean minorN = false;
+	private Integer buildI;
+	private boolean buildO = false;
+	private boolean buildN = false;
+	
 	public static void main(String[] args) throws Exception {
 		new Frame();
 	}
 	
 	public Frame() throws Exception {
 		loadImage();
-		checkVersion();
+		GlobalFunctions.LoadPlayer();
+		
+		if(Variables.updateCheck.getValue() != null) {
+			if(Variables.updateCheck.getValue() == 1) {
+				checkVersion();
+			}
+		} else {
+			checkVersion();
+		}
+		
+		
 		new JFrame();
 		
 		setSize(800, 600);
@@ -43,15 +65,52 @@ public class Frame extends JFrame{
 		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 		
 		String inputLine;
-		while ((inputLine = in.readLine()) != null) 
-			System.out.println(inputLine);
+		while ((inputLine = in.readLine()) != null) {
+			if(inputLine.contains("Major")) majorI = new Integer(inputLine.substring(7));
+			if(inputLine.contains("Minor")) minorI = new Integer(inputLine.substring(7));
+			if(inputLine.contains("Build")) buildI = new Integer(inputLine.substring(7));
+		}
 		in.close();
 		
-		/**
-		
-		if(version != Variables.version) {
-			System.out.println("Game is outdated!");
+		if(buildI > Variables.buildVersion) {
+			buildO = true; 
+			buildN = false;
+		} else if(buildI == Variables.buildVersion) {
+			buildO = false;
+			buildN = false;
+		} else {
+			buildO = false;
+			buildN = true;
 		}
-		*/
+		
+		if(minorI > Variables.minorVersion) {
+			minorO = true; 
+			minorN = false;
+		} else if(minorI == Variables.minorVersion) {
+			minorO = false;
+			minorN = false;
+		} else {
+			minorO = false;
+			minorN = true; 
+		}
+		
+		if(majorI > Variables.majorVersion) {
+			majorO = true; 
+			majorN = false;
+		} else if(majorI == Variables.majorVersion) {
+			majorO = false;
+			majorN = false;
+		} else { 
+			majorO = false;
+			majorN = true; 
+		}
+		
+		if(majorO || minorO || buildO) {
+			JOptionPane.showMessageDialog(this, "Your game is outdated!");
+		} else if(majorN || minorN || buildN) {
+			JOptionPane.showMessageDialog(this, "Your game hasn't been released yet!");
+		} else {
+			JOptionPane.showMessageDialog(this, "Your game is up to date!");
+		}
 	}
 }
