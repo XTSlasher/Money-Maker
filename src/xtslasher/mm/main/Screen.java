@@ -18,6 +18,8 @@ public class Screen extends JPanel implements Runnable{
 	Thread thread = new Thread(this);
 	
 	private String[] titleStrings = {"New Game", "Load Game", "Options", "Huh"};
+	private String[] gameMessages = {"", "", "", "", "", ""};
+	private String[] gameMessagesOld = {};
 	
 	Frame frame;
 	public static Image dollar;
@@ -43,10 +45,9 @@ public class Screen extends JPanel implements Runnable{
 	public void paintComponent(Graphics g) {
 		g.clearRect(0, 0, frame.getWidth(), frame.getHeight());
 		super.paintComponent(g);
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, frame.getWidth(), frame.getHeight());
 
-		
-		
 		if(scene == 0) {
 			//Draw Main Menu
 			g.drawImage(title, 0, 0, null);
@@ -60,9 +61,23 @@ public class Screen extends JPanel implements Runnable{
 			}
 		} else if(scene == 1) {
 			//Draw Game
+			g.setColor(Color.WHITE);
+			g.drawRect(20, 20, frame.getWidth()-40, frame.getHeight()-170);
+			
+			/**
+			 * Draw Game here
+			 */
+			
+			g.drawRect(20, frame.getHeight()-150, frame.getWidth()-40, 100);
+			g.setFont(g.getFont().deriveFont(15F));
+			
+			for(int i=0;i<gameMessages.length;i++) {
+				g.drawString(gameMessages[i], 25, frame.getHeight()-(135-(15*i)));
+			}
+			
 			//g.drawImage(dollar, 10, 5, 60, 24, null, null);  //Draw Dollar Image
 			g.setFont(g.getFont().deriveFont(12F));
-			g.setColor(Color.BLACK);
+			g.setColor(Color.WHITE);
 			g.drawString("Name: " + Variables.playerName.getValue().toString(), 10, 10);
 			g.drawString("Money: $" + Variables.playerMoney.getValue().toString(), 150, 10);
 			g.drawString("Employees: " + Variables.playerWorkers.getValue().toString(), 325, 10);
@@ -86,9 +101,7 @@ public class Screen extends JPanel implements Runnable{
 			} else {
 				enabled = "OFF";
 			}
-			g.drawString("Update Checker: " + enabled, frame.getWidth()/2 - 120, 125);
-			
-			//g.drawString("Mouse X: " + mouseX + " Mouse Y: " + mouseY, mouseX + 5, mouseY);
+			g.drawString("Update Checker: " + enabled, frame.getWidth()/2 - 120, 125);	
 		}
 		
 		g.setFont(g.getFont().deriveFont(12F));
@@ -97,7 +110,7 @@ public class Screen extends JPanel implements Runnable{
 			g.setColor(Color.BLACK);
 		}
 		//FPS
-		g.drawString("FPS: " + fps, frame.getWidth() - 55, 10);
+		frame.setTitle(Variables.title + " - " + Variables.version + " (FPS: " + fps + ")");
 	}
 	
 	@Override
@@ -124,6 +137,18 @@ public class Screen extends JPanel implements Runnable{
 		}
 	}
 	
+	public void updateGameMessages(String newMessage) {
+		gameMessagesOld = gameMessages;
+		for(int i=1;i<gameMessagesOld.length+1;i++) {
+			int dif = gameMessagesOld.length-i;
+			if(dif!=0) {
+				gameMessages[i-1] = gameMessagesOld[i];
+			} else {
+				gameMessages[5] = newMessage;
+			}
+		}
+	}
+	
 	public class KeyTyped {
 		public void keyEsc() throws Exception {
 			if(scene == 2){
@@ -139,6 +164,7 @@ public class Screen extends JPanel implements Runnable{
 			if(scene == 1) {
 				float currentMoney = Variables.playerMoney.getValue();
 				Variables.playerMoney = new FloatTag("PlayerMoney", currentMoney + 100000.0F);
+				updateGameMessages("Adding Money!");
 			}
 		}
 
