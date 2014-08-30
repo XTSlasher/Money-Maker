@@ -6,6 +6,10 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import org.jnbt.FloatTag;
+
+import xtslasher.mm.resources.Variables;
+
 public class Screen extends JPanel implements Runnable{
 	private static final long serialVersionUID = 2L;
 
@@ -52,6 +56,11 @@ public class Screen extends JPanel implements Runnable{
 		} else if(scene == 1) {
 			//Draw Game
 			//g.drawImage(dollar, 10, 5, 60, 24, null, null);  //Draw Dollar Image
+			g.setFont(g.getFont().deriveFont(12F));
+			g.setColor(Color.BLACK);
+			g.drawString("Name: " + Variables.playerName.getValue().toString(), 10, 10);
+			g.drawString("Money: $" + Variables.playerMoney.getValue().toString(), 150, 10);
+			g.drawString("Employees: " + Variables.playerWorkers.getValue().toString(), 325, 10);
 		} else if(scene == 2) {
 			//Draw Options
 			g.setColor(Color.BLACK);
@@ -63,14 +72,15 @@ public class Screen extends JPanel implements Runnable{
 		
 		g.setFont(g.getFont().deriveFont(12F));
 		g.setColor(Color.WHITE);
+		if (scene == 1) {
+			g.setColor(Color.BLACK);
+		}
 		//FPS
 		g.drawString("FPS: " + fps, frame.getWidth() - 55, 10);
 	}
 	
 	@Override
-	public void run() {
-		System.out.println("Game is Running!");
-		
+	public void run() {		
 		long lastFrame = System.currentTimeMillis();
 		int frames = 0;
 		
@@ -95,7 +105,18 @@ public class Screen extends JPanel implements Runnable{
 	
 	public class KeyTyped {
 		public void keyEsc() {
-			System.exit(0);
+			if(scene == 2){
+				scene = 0;
+			} else {
+				System.exit(0);
+			}
+		}
+		
+		public void addMoney() {
+			if(scene == 1) {
+				float currentMoney = Variables.playerMoney.getValue();
+				Variables.playerMoney = new FloatTag("PlayerMoney", currentMoney + 100000.0F);
+			}
 		}
 	}
 }
