@@ -25,6 +25,8 @@ public class Screen extends JPanel implements Runnable{
 	public static Image dollar;
 	public static Image title;
 	
+	//private static boolean isPaused = false;
+	
 	public int mouseX;	
 	public int mouseY;
 	
@@ -37,7 +39,13 @@ public class Screen extends JPanel implements Runnable{
 		frame.addKeyListener(new InputHandler(this));
 		frame.addMouseListener(new InputHandler(this));
 		frame.addMouseMotionListener(new InputHandler(this));
-		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				JOptionPane.showMessageDialog(frame, "Please use " + "ESC" + " to close the game!");
+			}
+		});
+	
 		thread.start();
 	}
 	
@@ -59,6 +67,7 @@ public class Screen extends JPanel implements Runnable{
 				g.setFont(g.getFont().deriveFont(24F));
 				g.drawString(titleStrings[i-1], 0 + (101*i+(i*i+(i*(i-1)))) + ((130/2)*i), 400+(70/2)+(70/8));
 			}
+			
 		} else if(scene == 1) {
 			//Draw Game
 			g.setColor(Color.WHITE);
@@ -68,7 +77,29 @@ public class Screen extends JPanel implements Runnable{
 			 * Draw Game here
 			 */
 			
-			g.drawRect(20, frame.getHeight()-150, frame.getWidth()-40, 100);
+			//Menu Box			
+			for(int x=0;x<2;x++) {
+				for(int y=0;y<2;y++) {
+					g.drawRect(20 + (frame.getWidth()-40)/2 + (((frame.getWidth()-40)/2)/2)*x, frame.getHeight()-150 + (50*y), ((frame.getWidth()-40)/2)/2, 50);
+					if(x==0 && y==0) {
+						g.setColor(Color.GREEN);
+						g.fillRect(20 + (frame.getWidth()-40)/2 + (((frame.getWidth()-40)/2)/2)*x, frame.getHeight()-150 + (50*y), ((frame.getWidth()-40)/2)/2, 50);
+					} else if(x==0 && y == 1) {
+						g.setColor(Color.RED);
+						g.fillRect(20 + (frame.getWidth()-40)/2 + (((frame.getWidth()-40)/2)/2)*x, frame.getHeight()-150 + (50*y), ((frame.getWidth()-40)/2)/2, 50);
+					} else if(x==1 && y == 0) {
+						g.setColor(Color.ORANGE);
+						g.fillRect(20 + (frame.getWidth()-40)/2 + (((frame.getWidth()-40)/2)/2)*x, frame.getHeight()-150 + (50*y), ((frame.getWidth()-40)/2)/2, 50);
+					} else if(x==1 && y == 1) {
+						g.setColor(Color.MAGENTA);
+						g.fillRect(20 + (frame.getWidth()-40)/2 + (((frame.getWidth()-40)/2)/2)*x, frame.getHeight()-150 + (50*y), ((frame.getWidth()-40)/2)/2, 50);
+					}
+				}
+			}
+			
+			g.setColor(Color.WHITE);
+			//Message Box
+			g.drawRect(20, frame.getHeight()-150, (frame.getWidth()-40)/2, 100);
 			g.setFont(g.getFont().deriveFont(15F));
 			
 			for(int i=0;i<gameMessages.length;i++) {
@@ -81,6 +112,7 @@ public class Screen extends JPanel implements Runnable{
 			g.drawString("Name: " + Variables.playerName.getValue().toString(), 10, 10);
 			g.drawString("Money: $" + Variables.playerMoney.getValue().toString(), 150, 10);
 			g.drawString("Employees: " + Variables.playerWorkers.getValue().toString(), 325, 10);
+			
 		} else if(scene == 2) {
 			//Draw Options
 			g.setColor(Color.BLACK);
@@ -163,8 +195,8 @@ public class Screen extends JPanel implements Runnable{
 		public void addMoney() {
 			if(scene == 1) {
 				float currentMoney = Variables.playerMoney.getValue();
-				Variables.playerMoney = new FloatTag("PlayerMoney", currentMoney + 100000.0F);
-				updateGameMessages("Adding Money!");
+				Variables.playerMoney = new FloatTag("PlayerMoney", currentMoney + 0.01F);
+				updateGameMessages("Adding Money! Money Now Is: " + Variables.playerMoney.getValue());
 			}
 		}
 

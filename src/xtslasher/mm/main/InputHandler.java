@@ -71,6 +71,32 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 				}
 			}
 			boxClear = false;
+		} else if(screen.scene == 1) {
+			/**
+			for(int x=0;x<2;x++) {
+				for(int y=0;y<2;y++) {
+					g.drawRect(20 + (frame.getWidth()-40)/2 + (((frame.getWidth()-40)/2)/2)*x, frame.getHeight()-150 + (50*y), ((frame.getWidth()-40)/2)/2, 50);
+				}
+			}
+			*/
+			
+			for(int x=0;x<2;x++) {
+				for(int y=0;y<2;y++) {
+					if(clickedX < 20 + (screen.frame.getWidth()-40)/2 + (((screen.frame.getWidth()-40)/2)/2)*x + ((screen.frame.getWidth()-40)/2)/2 && clickedX > 20 + (screen.frame.getWidth()-40)/2 + (((screen.frame.getWidth()-40)/2)/2)*x && clickedY < screen.frame.getHeight()-150 + (50*y) + 75 && clickedY > screen.frame.getHeight()-150 + (50*y) + 25 && !boxClear) {
+						boxClear = true;
+						if(x==0 && y==0) {
+							//System.out.println("Shop");
+						} else if(x==0 && y == 1) {
+							//System.out.println("Options");
+						} else if(x==1 && y == 0) {
+							//System.out.println("Pause");
+						} else if(x==1 && y == 1) {
+							//System.out.println("Save");
+						}
+					}
+				}
+			}
+			boxClear = false;
 		} else if(screen.scene == 2) {
 			//frame.getWidth()/2 - 125, 90, 175, 50);
 			if(clickedX < screen.frame.getWidth()/2 - 125 + 200 && clickedX > screen.frame.getWidth()/2 - 125 && clickedY < 90 + 25 + 50 && clickedY > 90 + 25 && boxClear == false) {
@@ -107,7 +133,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyChar() + ": " + e.getKeyCode());
+		//System.out.println(e.getKeyChar() + ": " + e.getKeyCode());
 		
 		if(e.getKeyChar() == 27) {
 			try {

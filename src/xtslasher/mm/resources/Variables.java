@@ -8,7 +8,7 @@ public class Variables {
 	public static final String title = "Money Maker";
 	public static final int majorVersion = 0;
 	public static final int minorVersion = 0;
-	public static final int buildVersion = 1;
+	public static final int buildVersion = 2;
 	public static final String version = "Version " + majorVersion + "." + minorVersion + "." + buildVersion;
 	public static final String path = "saves/";
 	public static final String ext = ".dat";

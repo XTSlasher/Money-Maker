@@ -45,7 +45,7 @@ public class Frame extends JFrame{
 		
 		setSize(800, 600);
 		setTitle(Variables.title + " - " + Variables.version);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -61,7 +61,7 @@ public class Frame extends JFrame{
 	}
 	
 	private void checkVersion() throws Exception {
-		URL github = new URL("https://raw.githubusercontent.com/XTSlasher/Money-Maker/master/VERSION.txt");
+		URL github = new URL("https://raw.githubusercontent.com/XTSlasher/Money-Maker/master/VERSION.md");
 		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 		
 		String inputLine;
