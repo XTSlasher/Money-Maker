@@ -120,9 +120,10 @@ public class Frame extends JFrame{
 		if(majorO || minorO || buildO) {
 			JOptionPane.showMessageDialog(this, "Your game is outdated!");
 			
-			if(majorO) checkFile("major");
-			if(minorO) checkFile("minor");
-			if(buildO) checkFile("build");
+			JOptionPane.showMessageDialog(this, "Please Visit: http://adf.ly/rdP65 to download the latest version. \nSorry for the inconvience.");
+			//if(majorO) checkFile("major");
+			//if(minorO) checkFile("minor");
+			//if(buildO) checkFile("build");
 		} else if(majorN || minorN || buildN) {
 			JOptionPane.showMessageDialog(this, "Your game hasn't been released yet!");
 		} else {
@@ -155,7 +156,9 @@ public class Frame extends JFrame{
 		
 		URL link = new URL("https://github.com/XTSlasher/Money-Maker/raw/master/releases/" + downFileName); //The file that you want to download
 		
-		if(!checkExists(link.toString())) {
+		System.out.println(checkExists(link.toString()));
+		
+		if(checkExists(link.toString())) {
 			JOptionPane.showMessageDialog(this, "Sorry, the version on file has not been released yet..");			
 		} else {
 			//Code to download
@@ -187,10 +190,7 @@ public class Frame extends JFrame{
 	public boolean checkExists(String URL) {
 		try {
 		      HttpURLConnection.setFollowRedirects(false);
-		      // note : you may also need
-		      //        HttpURLConnection.setInstanceFollowRedirects(false)
-		      HttpURLConnection con =
-		         (HttpURLConnection) new URL(URL).openConnection();
+		      HttpURLConnection con = (HttpURLConnection) new URL(URL).openConnection();
 		      con.setRequestMethod("HEAD");
 		      return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
 		    }
