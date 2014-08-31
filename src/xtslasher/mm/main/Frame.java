@@ -3,6 +3,7 @@ package xtslasher.mm.main;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -128,9 +129,12 @@ public class Frame extends JFrame{
 		Variables.updateCheck = new IntTag("UpdateChecker", 1);
 	}
 	
-	public void checkFile() throws Exception {		
-		String fileName = "testDownload1.txt"; //The file that will be saved on your computer
-		URL link = new URL("url"); //The file that you want to download
+	public void checkFile() throws Exception {
+		JOptionPane.showMessageDialog(this, "Will auto download newest version!");
+		String localFileName = "testFile.jar"; //The file that will be saved on your computer
+		String downFileName = "testJar.jar";
+		
+		URL link = new URL("https://raw.githubusercontent.com/XTSlasher/Money-Maker/master/releases/" + downFileName); //The file that you want to download
 		
 		//Code to download
 		InputStream in = new BufferedInputStream(link.openStream());
@@ -145,7 +149,11 @@ public class Frame extends JFrame{
 		in.close();
 		
 		byte[] response = out.toByteArray();
-		FileOutputStream fos = new FileOutputStream(fileName);
+		if(!new File(Variables.pathDown).exists()) {
+			new File(Variables.pathDown).mkdirs();
+		}
+		
+		FileOutputStream fos = new FileOutputStream(Variables.pathDown + localFileName);
 		fos.write(response);
 		fos.close();
 		//End download code
