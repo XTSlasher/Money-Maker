@@ -1,6 +1,10 @@
 package xtslasher.mm.main;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
@@ -113,6 +117,8 @@ public class Frame extends JFrame{
 		
 		if(majorO || minorO || buildO) {
 			JOptionPane.showMessageDialog(this, "Your game is outdated!");
+			
+			checkFile();
 		} else if(majorN || minorN || buildN) {
 			JOptionPane.showMessageDialog(this, "Your game hasn't been released yet!");
 		} else {
@@ -120,5 +126,30 @@ public class Frame extends JFrame{
 		}
 		
 		Variables.updateCheck = new IntTag("UpdateChecker", 1);
+	}
+	
+	public void checkFile() throws Exception {		
+		String fileName = "testDownload1.txt"; //The file that will be saved on your computer
+		URL link = new URL("url"); //The file that you want to download
+		
+		//Code to download
+		InputStream in = new BufferedInputStream(link.openStream());
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		byte[] buf = new byte[1024];
+		int n = 0;
+		while (-1!=(n=in.read(buf)))
+		{
+		   out.write(buf, 0, n);
+		}
+		out.close();
+		in.close();
+		
+		byte[] response = out.toByteArray();
+		FileOutputStream fos = new FileOutputStream(fileName);
+		fos.write(response);
+		fos.close();
+		//End download code
+		
+		System.out.println("Finished");
 	}
 }

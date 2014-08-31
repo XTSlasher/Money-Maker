@@ -48,7 +48,7 @@ public class GlobalFunctions {
 	}
 	
 	public static void SavePlayer() throws Exception {
-		String playerPath = Variables.path + "/";
+		String playerPath = Variables.pathSave + "/";
 		if(!new File(playerPath).exists()) new File(playerPath).mkdirs();
 		
 		NBTOutputStream out = new NBTOutputStream(new FileOutputStream(new File(playerPath + "player" + Variables.ext)));		
@@ -66,7 +66,7 @@ public class GlobalFunctions {
 	}
 	
 	public static void LoadPlayer() throws Exception {
-		String playerPath = Variables.path + "/";
+		String playerPath = Variables.pathSave + "/";
 		boolean fileFound = new File(playerPath + "player.dat").exists();
 		
 		if(!fileFound) {

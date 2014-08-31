@@ -186,7 +186,7 @@ public class Screen extends JPanel implements Runnable{
 	public class KeyTyped {
 		public void keyEsc() throws Exception {
 			if(scene == 2){
-				String playerPath = Variables.path + "/";
+				String playerPath = Variables.pathSave + "/";
 				boolean fileFound = new File(playerPath + "player.dat").exists();
 				
 				if(!fileFound) {
@@ -196,7 +196,7 @@ public class Screen extends JPanel implements Runnable{
 					scene = 0;
 				}
 			} else if(scene == 0) {
-				String playerPath = Variables.path + "/";
+				String playerPath = Variables.pathSave + "/";
 				boolean fileFound = new File(playerPath + "player.dat").exists();
 				
 				if(!fileFound) { 

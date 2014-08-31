@@ -10,7 +10,8 @@ public class Variables {
 	public static final int minorVersion = 0;
 	public static final int buildVersion = 2;
 	public static final String version = "Version " + majorVersion + "." + minorVersion + "." + buildVersion;
-	public static final String path = "saves/";
+	public static final String pathSave = "saves/";
+	public static final String pathDown = "downloads/";
 	public static final String ext = ".dat";
 	
 	public static StringTag playerName;

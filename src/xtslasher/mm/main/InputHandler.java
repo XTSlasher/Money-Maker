@@ -53,7 +53,7 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 					} else if(i == 2) {
 						//Load Game Only 1 save!
 						try {
-							String playerPath = Variables.path + "/";
+							String playerPath = Variables.pathSave + "/";
 							boolean fileFound = new File(playerPath + "player.dat").exists();
 							
 							if(!fileFound) {
