@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 
 import javax.swing.JOptionPane;
 
@@ -51,10 +52,16 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 						screen.scene = 1;
 					} else if(i == 2) {
 						//Load Game Only 1 save!
-						JOptionPane.showMessageDialog(screen, "This option has yet to be implemented", "Load Game", JOptionPane.INFORMATION_MESSAGE);
 						try {
-							GlobalFunctions.LoadPlayer();
-							screen.scene = 1;
+							String playerPath = Variables.path + "/";
+							boolean fileFound = new File(playerPath + "player.dat").exists();
+							
+							if(!fileFound) {
+								JOptionPane.showMessageDialog(screen, "Please Start a new game at least once!", "No Game Found?", JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								GlobalFunctions.LoadPlayer();
+								screen.scene = 1;
+							}					
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}

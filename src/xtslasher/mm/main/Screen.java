@@ -3,6 +3,7 @@ package xtslasher.mm.main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -111,7 +112,8 @@ public class Screen extends JPanel implements Runnable{
 			g.setColor(Color.WHITE);
 			g.drawString("Name: " + Variables.playerName.getValue().toString(), 10, 10);
 			g.drawString("Money: $" + Variables.playerMoney.getValue().toString(), 150, 10);
-			g.drawString("Employees: " + Variables.playerWorkers.getValue().toString(), 325, 10);
+			g.drawString("Income/Minute: " + Variables.incomeMinute.getValue().toString(), 325, 10);
+			g.drawString("Employees: " + Variables.playerWorkers.getValue().toString(), 500, 10);
 			
 		} else if(scene == 2) {
 			//Draw Options
@@ -184,8 +186,25 @@ public class Screen extends JPanel implements Runnable{
 	public class KeyTyped {
 		public void keyEsc() throws Exception {
 			if(scene == 2){
-				GlobalFunctions.SavePlayer();
-				scene = 0;
+				String playerPath = Variables.path + "/";
+				boolean fileFound = new File(playerPath + "player.dat").exists();
+				
+				if(!fileFound) {
+					scene = 0;
+				} else {
+					GlobalFunctions.SavePlayer();
+					scene = 0;
+				}
+			} else if(scene == 0) {
+				String playerPath = Variables.path + "/";
+				boolean fileFound = new File(playerPath + "player.dat").exists();
+				
+				if(!fileFound) { 
+					System.exit(0);
+				} else {
+					GlobalFunctions.SavePlayer();
+					System.exit(0);
+				}
 			} else {
 				GlobalFunctions.SavePlayer();
 				System.exit(0);

@@ -30,9 +30,15 @@ public class GlobalFunctions {
 		}
 		
 		Variables.playerName = new StringTag("PlayerName", customName);
-		Variables.playerMoney = new FloatTag("PlayerMoney", 0);
+		Variables.playerMoney = new FloatTag("PlayerMoney", 0F);
 		Variables.playerWorkers = new IntTag("PlayerWorkers", 0);
 		Variables.updateCheck = new IntTag("UpdateChecker", 1);
+		Variables.incomeMinute = new FloatTag("MinuteIncome", 0F);
+		Variables.gameYear = new IntTag("GameYear", 1);
+		Variables.gameWeek = new IntTag("GameWeek", 1);
+		Variables.gameDay = new IntTag("GameDay", 1);
+		Variables.gameTime = new IntTag("GameTime", 0);
+		Variables.gameClock = new IntTag("GameClock", 0);
 		
 		try {
 			SavePlayer();
@@ -45,18 +51,28 @@ public class GlobalFunctions {
 		String playerPath = Variables.path + "/";
 		if(!new File(playerPath).exists()) new File(playerPath).mkdirs();
 		
-		NBTOutputStream out = new NBTOutputStream(new FileOutputStream(new File(playerPath + "player" + Variables.ext)));
+		NBTOutputStream out = new NBTOutputStream(new FileOutputStream(new File(playerPath + "player" + Variables.ext)));		
 		out.writeTag(Variables.playerName);
 		out.writeTag(Variables.playerMoney);
 		out.writeTag(Variables.playerWorkers);
 		out.writeTag(Variables.updateCheck);
+		out.writeTag(Variables.incomeMinute);
+		out.writeTag(Variables.gameYear);
+		out.writeTag(Variables.gameWeek);
+		out.writeTag(Variables.gameDay);
+		out.writeTag(Variables.gameTime);
+		out.writeTag(Variables.gameClock);
 		out.close();
 	}
 	
 	public static void LoadPlayer() throws Exception {
 		String playerPath = Variables.path + "/";
-		if(!new File(playerPath).exists()) return;
+		boolean fileFound = new File(playerPath + "player.dat").exists();
 		
+		if(!fileFound) {
+			return;
+		}
+			
 		for(int i=1;i<Variables.saveNames.length+1;i++) {
 			Variables.fileLength++;
 		}
@@ -72,8 +88,8 @@ public class GlobalFunctions {
 				while((tag = in.readTag()) != null && Variables.fileLength > 0) {
 					tags.add(tag);
 					Variables.fileLength--;
-					if(Variables.fileLength == 0) break;
 				}
+				
 				in.close();
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -83,6 +99,12 @@ public class GlobalFunctions {
 			Variables.playerMoney = (FloatTag) getTag(tags, "PlayerMoney");
 			Variables.playerWorkers = (IntTag) getTag(tags, "PlayerWorkers");
 			Variables.updateCheck = (IntTag) getTag(tags, "UpdateChecker");
+			Variables.incomeMinute = (FloatTag) getTag(tags, "MinuteIncome");
+			Variables.gameYear = (IntTag) getTag(tags, "GameYear");
+			Variables.gameWeek = (IntTag) getTag(tags, "GameWeek");
+			Variables.gameDay = (IntTag) getTag(tags, "GameDay");
+			Variables.gameTime = (IntTag) getTag(tags, "GameTime");
+			Variables.gameClock = (IntTag) getTag(tags, "GameClock");
 		} catch(Exception e) {
 			e.printStackTrace();
 		} 

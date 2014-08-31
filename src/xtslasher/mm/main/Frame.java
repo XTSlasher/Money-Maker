@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.jnbt.IntTag;
+
 import xtslasher.mm.resources.GlobalFunctions;
 import xtslasher.mm.resources.Variables;
 
@@ -32,8 +34,12 @@ public class Frame extends JFrame{
 		loadImage();
 		GlobalFunctions.LoadPlayer();
 		
-		if(Variables.updateCheck.getValue() != null) {
-			if(Variables.updateCheck.getValue() == 1) {
+		if(Variables.updateCheck != null) {
+			if(Variables.updateCheck.getValue() != null) {
+				if(Variables.updateCheck.getValue() == 1) {
+					checkVersion();
+				}
+			} else {
 				checkVersion();
 			}
 		} else {
@@ -112,5 +118,7 @@ public class Frame extends JFrame{
 		} else {
 			JOptionPane.showMessageDialog(this, "Your game is up to date!");
 		}
+		
+		Variables.updateCheck = new IntTag("UpdateChecker", 1);
 	}
 }
