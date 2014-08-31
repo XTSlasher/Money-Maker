@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -131,33 +132,55 @@ public class Frame extends JFrame{
 	
 	public void checkFile() throws Exception {
 		JOptionPane.showMessageDialog(this, "Will auto download newest version!");
-		String localFileName = "testFile.jar"; //The file that will be saved on your computer
-		String downFileName = "testJar.jar";
+		String localFileName = "MoneyMaker_Latest.jar"; //The file that will be saved on your computer
+		String downFileName = "MoneyMaker_" + Variables.version + ".jar";
 		
-		URL link = new URL("https://raw.githubusercontent.com/XTSlasher/Money-Maker/master/releases/" + downFileName); //The file that you want to download
+		System.out.println("Attempting to download: " + downFileName);
 		
-		//Code to download
-		InputStream in = new BufferedInputStream(link.openStream());
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		byte[] buf = new byte[1024];
-		int n = 0;
-		while (-1!=(n=in.read(buf)))
-		{
-		   out.write(buf, 0, n);
+		URL link = new URL("https://github.com/XTSlasher/Money-Maker/raw/master/releases/" + downFileName); //The file that you want to download
+		
+		if(!checkExists(link.toString())) {
+			JOptionPane.showMessageDialog(this, "Sorry, the version on file has not been released yet..");			
+		} else {
+			//Code to download
+			InputStream in = new BufferedInputStream(link.openStream());
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			byte[] buf = new byte[1024];
+			int n = 0;
+			while (-1!=(n=in.read(buf)))
+			{
+			   out.write(buf, 0, n);
+			}
+			out.close();
+			in.close();
+			
+			byte[] response = out.toByteArray();
+			if(!new File(Variables.pathDown).exists()) {
+				new File(Variables.pathDown).mkdirs();
+			}
+			
+			FileOutputStream fos = new FileOutputStream(Variables.pathDown + localFileName);
+			fos.write(response);
+			fos.close();
+			//End download code
+			
+			System.out.println("Finished");
 		}
-		out.close();
-		in.close();
-		
-		byte[] response = out.toByteArray();
-		if(!new File(Variables.pathDown).exists()) {
-			new File(Variables.pathDown).mkdirs();
-		}
-		
-		FileOutputStream fos = new FileOutputStream(Variables.pathDown + localFileName);
-		fos.write(response);
-		fos.close();
-		//End download code
-		
-		System.out.println("Finished");
+	}
+	
+	public boolean checkExists(String URL) {
+		try {
+		      HttpURLConnection.setFollowRedirects(false);
+		      // note : you may also need
+		      //        HttpURLConnection.setInstanceFollowRedirects(false)
+		      HttpURLConnection con =
+		         (HttpURLConnection) new URL(URL).openConnection();
+		      con.setRequestMethod("HEAD");
+		      return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+		    }
+		    catch (Exception e) {
+		       e.printStackTrace();
+		       return false;
+		    }
 	}
 }
