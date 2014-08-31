@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Main-Class: xtslasher.mm.main.Frame
+
+Name: xtslasher/mm/main/
+Sealed: true
+
+Name: xtslasher/mm/resources/
+Sealed: true
+

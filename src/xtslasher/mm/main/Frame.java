@@ -65,11 +65,21 @@ public class Frame extends JFrame{
 		add(new Screen(this));
 	}
 	
-	private void loadImage() {
-		ImageIcon di = new ImageIcon("src/res/dollar.png");
-		ImageIcon ti = new ImageIcon("src/res/titleScreen.png");
+	private void loadImage() {		
+		ImageIcon di = createImageIcon("/res/dollar.png", "DollarPicture");
+		ImageIcon ti = createImageIcon("/res/titleScreen.png", "TitleImage");
 		Screen.dollar = di.getImage();
 		Screen.title = ti.getImage();
+	}
+	
+	protected ImageIcon createImageIcon(String path, String description) {
+		URL imgURL = getClass().getResource(path);
+		if(imgURL != null) {
+			return new ImageIcon(imgURL, description);
+		} else {
+			System.err.println("Couldn't find file: " + path);
+			return null;
+		}
 	}
 	
 	private void checkVersion() throws Exception {
