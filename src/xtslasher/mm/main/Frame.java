@@ -120,7 +120,9 @@ public class Frame extends JFrame{
 		if(majorO || minorO || buildO) {
 			JOptionPane.showMessageDialog(this, "Your game is outdated!");
 			
-			checkFile();
+			if(majorO) checkFile("major");
+			if(minorO) checkFile("minor");
+			if(buildO) checkFile("build");
 		} else if(majorN || minorN || buildN) {
 			JOptionPane.showMessageDialog(this, "Your game hasn't been released yet!");
 		} else {
@@ -130,10 +132,24 @@ public class Frame extends JFrame{
 		Variables.updateCheck = new IntTag("UpdateChecker", 1);
 	}
 	
-	public void checkFile() throws Exception {
+	public void checkFile(String version) throws Exception {
 		JOptionPane.showMessageDialog(this, "Will auto download newest version!");
 		String localFileName = "MoneyMaker_Latest.jar"; //The file that will be saved on your computer
-		String downFileName = "MoneyMaker_" + Variables.version + ".jar";
+		String localVersion = Variables.version;
+		int majorD = 0;
+		int minorD = 0;
+		int buildD = 0;
+		String downVersion = "";
+		
+		if(version == "major") majorD = Variables.majorVersion + 1;
+		if(version == "minor") minorD = Variables.minorVersion + 1;
+		if(version == "build") buildD = Variables.buildVersion + 1;
+		
+		downVersion = "Version" + majorD + "" + minorD + "" + buildD;
+		
+		System.out.println("Local: " + localVersion + ", Downloading: " + downVersion);
+		
+		String downFileName = "MoneyMaker" + downVersion + ".jar";
 		
 		System.out.println("Attempting to download: " + downFileName);
 		
